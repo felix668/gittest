@@ -1,0 +1,146 @@
+1、批量删除指定个是文件夹
+find  filename  -name  '*.exe'  -type  f  -print  -exec  rm  -rf  {} \;
+2、创建仓库
+git init gitku
+在gitku目录下创建git仓库
+3、ls -a 查看目录
+4、git clone git@github.com:felix668/work.git 拷贝一个git仓库到本地
+5、git add filename 将文件添加到缓存
+6、vim filename 修改文件 esc＋:wq退出保存
+6、git status -s 查看项目当前状态，简短输出，没有－s会详细输出内容
+7、AM filename 是文件在将它添加到缓存之后有改动
+8、执行 git diff 来查看执行 git status 的结果的详细信息。
+	git diff 命令显示已写入缓存与已修改但尚未写入缓存的改动的区别。git diff 有两个主要的应用场景。
+	尚未缓存的改动：git diff
+	查看已缓存的改动： git diff --cached
+	查看已缓存的与未缓存的所有改动：git diff HEAD
+	显示摘要而非整个 diff：git diff --stat
+9、git commit -m '第一次版本提交' 
+	使用 git add 命令将想要快照的内容写入缓存区， 而执行 git commit 将缓存区内容添加到仓库中
+	Git 为你的每一个提交都记录你的名字与电子邮箱地址，所以第一步需要配置用户名和邮箱地址
+	git config --global user.name 'runoob'
+	git config --global user.email test@runoob.com
+10、git reset HEAD 命令用于取消已缓存的内容
+
+分支管理
+1、创建分支 git branch li
+2、切换分支 git checkout li
+3、//git checkout -b (branchname) 命令来创建新分支并立即切换到该分支下
+4、git branch -d (branchname) 删除分支命令
+5、git merge 分支合并,一旦某分支有了独立内容，你终究会希望将它合并回到你的主分支。 你可以使用以下命令将任何分支合并到当前分支中去：
+6、使用 git log 命令列出历史提交记录
+7、我们可以用 git log --oneline 选项来查看历史记录的简洁的版本
+8、git log --graph 选项，查看历史中什么时候出现了分支、合并
+9、git log --reverse --oneline 参数来逆向显示所有日志
+10、git log --author=Linus --oneline -5查找指定用户的提交日志
+
+Git 标签
+果你达到一个重要的阶段，并希望永远记住那个特别的提交快照，你可以使用 git tag 给它打上标签
+11、git tag -a v1.0   -a 选项意为"创建一个带注解的标签"。 不用 -a 选项也可以执行的，但它不会记录这标签是啥时候打的，谁打的，也不会让你添加个标签的注解，当你执行 git tag -a 命令时，Git 会打开你的编辑器，让你写一句标签注解，就像你给提交写注解一样
+12、执行 git log --decorate 时，我们可以看到我们的标签了
+13、查看所有标签 git tag
+14、指定标签信息命令 git tag -a <tagname> -m "w3cschool.cc标签"
+15、PGP签名标签命令 git tag -s <tagname> -m "w3cschool.cc标签"
+
+
+Git 远程仓库(Github)
+1、添加远程库 git remote add [shortname] [url]
+由于你的本地Git仓库和GitHub仓库之间的传输是通过SSH加密的，所以我们需要配置验证信息：
+2、使用以下命令生成SSH Key：
+    ssh-keygen -t rsa -C "youremail@example.com"
+    成功的话会在~/下生成.ssh文件夹，进去，打开 id_rsa.pub，复制里面的 key。
+    回到 github 上，进入 Account => Settings（账户配置）。左边选择 SSH and GPG keys，然后点击 New SSH key 按钮,title设置标题，可以随便填，粘贴在你电脑上生成的 key。
+    为了验证是否成功，输入以下命令：
+	ssh -T git@github.com
+	Hi tianqixin! You've successfully authenticated, but GitHub does not provide shell access.
+3、之后在在Repository name 填入 runoob-git-test(远程仓库名) ，其他保持默认设置，点击"Create repository"按钮，就成功地创建了一个新的Git仓库：
+4、$ mkdir runoob-git-test                     # 创建测试目录
+$ cd runoob-git-test/                       # 进入测试目录
+$ echo "# 菜鸟教程 Git 测试" >> README.md     # 创建 README.md 文件并写入内容
+$ ls                                        # 查看目录下的文件
+README
+$ git init                                  # 初始化
+$ git add README.md                         # 添加文件
+$ git commit -m "添加 README.md 文件"        # 提交并备注信息
+[master (root-commit) 0205aab] 添加 README.md 文件
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README.md
+
+# 提交到 Github
+$ git remote add origin git@github.com:tianqixin/runoob-git-test.git
+$ git push -u origin master
+5、查看当前的远程库 $ git remote
+   git remote -v 执行时加上 -v 参数，你还可以看到每个别名的实际链接地址
+6、提取远程仓库 
+  1）从远程仓库下载新分支与数据 
+     git fetch
+     该命令执行完后需要执行git merge 远程分支到你所在的分支
+  2）从远端仓库提取数据并尝试合并到当前分支
+     git pull
+     该命令就是在执行 git fetch 之后紧接着执行 git merge 远程分支到你所在的任意分支
+     实例：
+     a.在github上修改readme，
+     b.然后本地更新修改
+       git fetch origin
+       信息"0205aab..febd8ed master -> origin/master" 说明 master 分支已被更新
+     c.更新同步到本地 
+       git merge origin/master
+     d.查看 README.md 文件内容
+       cat README.md
+
+7、推送到远程仓库
+  1)推送你的新分支与数据到某个远端仓库命令 
+    git push [alias] [branch]
+    将你的 [branch] 分支推送成为 [alias] 远程仓库上的 [branch] 分支，实例如下:
+    a.touch test.txt 添加文件
+    b.git add test.txt
+    c.git commit -m '添加test.txt到远程'
+    d.git push origin master 推送到github
+    合并分支
+
+8、删除远程仓库
+  git remote rm [别名]
+  实例：
+  a.查看远程仓库
+    git remote -v
+  b.添加仓库origin2
+    git remote add origin2 git@github.com:felix668/gittest.git
+  c.git remote -v
+  d.git remote rm origin2
+  e.git remote -v
+
+Git 服务器搭建
+1.安装git
+ $ yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-devel
+ $ yum install git
+
+
+分支修改并主干合并
+1、 git add -A
+2、git commit -m '修改标记'
+3、git pull origin branchname
+4、git push origin branchname
+5.git checkout master
+6.git status
+7.git merge branchname
+8.git status
+9.git push orign master
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
